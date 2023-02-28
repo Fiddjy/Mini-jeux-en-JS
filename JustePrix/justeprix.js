@@ -14,7 +14,22 @@ document.getElementById("beginGame")
 
 document.getElementById("checkPropalButton")
   .addEventListener("click", function(){
-    let numberPropal = document.getElementById("userPropalInput").value
+    checkPropal()
+  })
+
+document.getElementById("userPropalInput")
+  .addEventListener("keyup", function(event){
+    if(event.key == 'Enter'){
+      checkPropal()
+    }
+  })
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function checkPropal() {
+  let numberPropal = document.getElementById("userPropalInput").value
     if(NumberToFind > numberPropal) {
       console.log("c'est plus")
     }
@@ -24,8 +39,4 @@ document.getElementById("checkPropalButton")
     else if (NumberToFind == numberPropal) {
       console.log("c'est gagné")
     }
-  })
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
 }
