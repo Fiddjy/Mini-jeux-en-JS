@@ -16,13 +16,25 @@ buttonPlay.addEventListener("click", function(){
 
 function beginGame(){
     // Générer un mot au hasard
+    wordToFindDiv.innerHTML = ''
     let wordToFind = generateWord()
-    wordToFindDiv.innerHTML = wordToFind
+    let wordToFindArray = Array.from(wordToFind)
+
+    let table = document.createElement("table")
+    let line = document.createElement("tr")
+    wordToFindArray.forEach(letter => {
+        //Créer un TD (case du tableau) par lettre
+        let td = document.createElement("td")
+        td.dataset.letter = letter
+        td.innerText = "_"
+        line.appendChild(td)
+    })
+    table.appendChild(line)
+    wordToFindDiv.appendChild(table)
 }
 
 function generateWord(){
     let indexWord = getRandomInt(allWords.length)
-    console.log(indexWord)
     return allWords[indexWord]
 }
 
