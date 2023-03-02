@@ -1,7 +1,8 @@
 /* TODO LIST: 
     V Générer un mot aléatoire
-    O afficher le mot en masqué _ _ _ _ _
-    O Pouvoir proposer des lettres
+    V afficher le mot en masqué _ _ _ _ _
+    V Pouvoir proposer des lettres
+    O Masquer les lettres proposées
     O Afficher les lettres trouvées
     O Gérer le nombre d'erreurs max
 */
@@ -9,6 +10,7 @@
 const buttonPlay = document.getElementById("beginGame");
 const allWords = ['ministre', 'congolais','constitution', 'corompre', 'petrole', 'dictateur', 'sapeur', 'prisonnier', 'chomage', 'economie'];
 const wordToFindDiv = document.getElementById("wordToFindDiv")
+const KeyBoardDiv = document.getElementById("KeyBoard")
 
 buttonPlay.addEventListener("click", function(){
     beginGame()
@@ -31,6 +33,34 @@ function beginGame(){
     })
     table.appendChild(line)
     wordToFindDiv.appendChild(table)
+
+    generateKeyBoard()
+}
+
+function generateKeyBoard(){
+    KeyBoardDiv.innerHTML = ''
+    let Alphabet = generateAlphabet()
+    Alphabet.forEach(letter => {
+        let lettreDiv = document.createElement("div")
+        lettreDiv.innerHTML = letter
+        lettreDiv.classList.add("letterKeyBoard")
+        KeyBoardDiv.appendChild(lettreDiv)
+    })
+}
+
+function generateAlphabet(capital = false) {
+    return[...Array(26)].map((_, i) => String.fromCharCode(i + (capital ? 65 : 97)))
+    /* ci-dessous, tout pareil, mais écrit autrement :
+    let tab = []; 
+    for(i=0; i<26; i++) {
+        if(capital) {
+            tab.push(String.fromCharCode(i + 65))
+        }
+        else {
+            tab.push(String.fromCharCode(i + 97))
+        }
+    }
+    return tab */
 }
 
 function generateWord(){
