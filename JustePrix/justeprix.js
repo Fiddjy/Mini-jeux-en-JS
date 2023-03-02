@@ -92,7 +92,7 @@ function endGame(gagne) {
     },5000)
   }
   else {
-    alert("T'es mauvais Jack ! C'est le la piquette Jack, tu sais pas jouer Jack !")
+    alert("T'es mauvais Jack ! C'est de la piquette Jack, tu sais pas jouer Jack !")
     /*let audio = new Audio("audio/JustePrix_audio_perdu")*/
   }
   GamePropalDiv.style.display="none"
