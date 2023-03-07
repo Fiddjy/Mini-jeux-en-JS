@@ -2,19 +2,23 @@
     V Générer un mot aléatoire
     V afficher le mot en masqué _ _ _ _ _
     V Pouvoir proposer des lettres
-    V Masquer les lettres proposées
     V Afficher les lettres trouvées
     V Gérer le nombre d'erreurs max
-    X Gérer la fin de partie
+    V Gérer la victoire
+    X Afficher des lettres visibles (en fonction de la difficulté)
 */
+
+import { Confetti } from "../lib/confetti.js";
 
 const buttonPlay = document.getElementById("beginGame");
 const allWords = ['ministre', 'congolais','constitution', 'corompre', 'petrole', 'dictateur', 'sapeur', 'prisonnier', 'chomage', 'economie'];
 const wordToFindDiv = document.getElementById("wordToFindDiv")
 const KeyBoardDiv = document.getElementById("KeyBoard")
+const cptErreurDiv = document.getElementById("cptErreur")
 let wordToFind = '';
 let wordToFindArray;
 let cptErreur = 0
+let cptLettreTrouvees = 0
 
 buttonPlay.addEventListener("click", function(){
     initGame()
@@ -23,6 +27,7 @@ buttonPlay.addEventListener("click", function(){
 function initGame(){
     // Générer un mot au hasard
     cptErreur = 0
+    cptLettreTrouvees = 0
     wordToFindDiv.innerHTML = ''
     wordToFind  = generateWord()
     wordToFindArray = Array.from(wordToFind)
@@ -56,21 +61,30 @@ function generateKeyBoard(){
 
         lettreDiv.addEventListener("click", () => {
             if(checkLetterInWord(letter)) { 
-                // TODO afficher la lettre dans le mot masqué
                 let lineWord = document.getElementById("LineOfWord") 
                 let allTdOfWord = lineWord.children
 
                 Array.from(allTdOfWord).forEach(td => {
                     if(td.dataset.letter == letter){
                         td.innerHTML = letter;
+                        cptLettreTrouvees++
                     }
                 })
+
+                if(cptLettreTrouvees == wordToFindArray.length) {
+                    KeyBoardDiv.innerHTML = ""
+                    cptErreurDiv.innerHTML = "Gagné avec "+cptErreur+" erreur(s)."
+                    Confetti.launchAnimationConfeti();
+                    setTimeout(() => {
+                      Confetti.stopAnimationConfeti();
+                    },5000)
+                }
             }
             else{
                 cptErreur++
-                document.getElementById("cptErreur").innerHTML = cptErreur
+                cptErreurDiv.innerHTML = cptErreur
                 if(cptErreur >= 5) {
-                    document.getElementById("cptErreur").innerHTML = "Perdu, vous avez fait plus de 5 erreurs."
+                    cptErreurDiv.innerHTML = "Perdu, vous avez fait plus de 5 erreurs."
                     let lineWord = document.getElementById("LineOfWord")
                     let allTdOfWord = lineWord.children
                     Array.from(allTdOfWord).forEach(td => {
