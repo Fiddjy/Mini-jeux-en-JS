@@ -25,7 +25,6 @@ buttonPlay.addEventListener("click", function(){
 })
 
 function initGame(){
-    // Générer un mot au hasard
     cptErreur = 0
     cptLettreTrouvees = 0
     wordToFindDiv.innerHTML = ''
@@ -83,8 +82,12 @@ function generateKeyBoard(){
             else{
                 cptErreur++
                 cptErreurDiv.innerHTML = cptErreur
-                if(cptErreur >= 5) {
-                    cptErreurDiv.innerHTML = "Perdu, vous avez fait plus de 5 erreurs."
+                let imgPendu = document.getElementById("imagePendu")
+                imgPendu.className =""
+                imgPendu.classList.add("etat"+cptErreur)
+
+                if(cptErreur == 4) {
+                    cptErreurDiv.innerHTML = "Perdu, vous avez fait plus de "+cptErreur+" erreurs."
                     let lineWord = document.getElementById("LineOfWord")
                     let allTdOfWord = lineWord.children
                     Array.from(allTdOfWord).forEach(td => {
