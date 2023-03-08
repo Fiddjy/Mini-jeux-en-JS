@@ -6,3 +6,11 @@
 .showPlayingDiv {
     display:none;
 }
+
+.goodAnswer {
+    color:green;
+}
+
+.badAnswer{
+    color:red;
+}

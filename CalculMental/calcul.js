@@ -6,6 +6,8 @@ Modifier le temps du compte à rebours
 Les opérateurs de la partie
 Meilleur temps en cookie
 Gérer les divisions
+Afficher un récap des calculs effectués
+
 */
 
 const reboursDiv = document.getElementById("minuteur")
@@ -20,6 +22,7 @@ let TempsRestant = 0
 let calculEncours = null
 let cptGoodAnswer = 0
 let cptBadAnswer = 0
+let allCalculRecap = ''
 
 document.getElementById("validPropal").addEventListener("click", () => {
     getInputValue()
@@ -35,10 +38,12 @@ function checkInputValue() {
     if(propalInput.value == calculEncours.result) {
         messengerDiv.innerText="Bravo, vous avez trouvé"
         cptGoodAnswer++
+        allCalculRecap += `${calculEncours.showCalculwithResult} | <span class="goodAnswer">${propalInput.value}</span><br/>`
     }
     else{
-        messengerDiv.innerText=`Raté, le résultat attendu était : ${calculEncours.showCalcul} = ${calculEncours.result}`
+        messengerDiv.innerText=`Raté, le résultat attendu était : ${calculEncours.showCalculwithResult}`
         cptBadAnswer++
+        allCalculRecap += `${calculEncours.showCalculwithResult} | <span class="badAnswer">${propalInput.value}</span><br/>`
     }
     propalInput.value = ""
     generateCalcul()
@@ -68,7 +73,13 @@ function lancerMinuteur(TempsMinuteurBase) {
             clearInterval(compteurInterval)
             displayPlaiyngDiv(false)
             messengerDiv.innerHTML = `Bonne(s) réponse(s) : ${cptGoodAnswer}<br/>`
-            messengerDiv.innerHTML += `Mauvaise(s) réponse(s) : ${cptBadAnswer}`
+            messengerDiv.innerHTML += `Mauvaise(s) réponse(s) : ${cptBadAnswer}<br/>`
+
+            let totalQuestions = cptBadAnswer + cptGoodAnswer
+            let pourcentageGoodAnswer = 100 * (cptGoodAnswer/totalQuestions)
+
+            messengerDiv.innerHTML += `Ratio de bonnes réponses : ${pourcentageGoodAnswer}<br/>`
+            messengerDiv.innerHTML += allCalculRecap
         }
     }, 1000)
 }
@@ -100,6 +111,10 @@ class Calcul {
 
     get showCalcul() {
         return `${this.nombre1} ${this.operator} ${this.nombre2}`
+    }
+
+    get showCalculwithResult() {
+        return `${this.showCalcul} = ${this.result}`
     }
 
     #getRandomInt(max) {
