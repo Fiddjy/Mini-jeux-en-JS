@@ -1,9 +1,7 @@
 /* TODO LIST
+Corriger le bug du undefined si pas de valeur rentrées
 
 V2 
-Pouvoir paramétrer ma partie
-(Modifier le temps du compte à rebours
-Les opérateurs de la partie)
 Gérer les divisions
 Meilleur temps en cookie
 
