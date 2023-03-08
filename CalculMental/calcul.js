@@ -1,12 +1,11 @@
 /* TODO LIST
 
 V2 
-Paramétrer ma partie
-Modifier le temps du compte à rebours
-Les opérateurs de la partie
-Meilleur temps en cookie
+Pouvoir paramétrer ma partie
+(Modifier le temps du compte à rebours
+Les opérateurs de la partie)
 Gérer les divisions
-Afficher un récap des calculs effectués
+Meilleur temps en cookie
 
 */
 
@@ -15,8 +14,11 @@ const calculDiv = document.getElementById("calcul")
 const propalInput = document.getElementById("resultPropal")
 const messengerDiv = document.getElementById("messenger")
 const showPlayingDiv = document.querySelectorAll(".showPlayingDiv")
+const nbScondsGameInput = document.getElementById("nbSecondsGame")
+const maxNumberCalcInput = document.getElementById("maxNumberCalc")
 
-const TempsMinuteurBase = 30
+let TempsMinuteurBase = 30
+let maxCalculNumber = 20
 let compteurInterval = null
 let TempsRestant = 0
 let calculEncours = null
@@ -50,15 +52,26 @@ function checkInputValue() {
 }
 
 function launchGame() {
+    console.log(nbScondsGameInput.value)
+    if(nbScondsGameInput.value != undefined) {
+        TempsMinuteurBase = nbScondsGameInput.value
+    }
+
+    if(maxNumberCalcInput.value != undefined) {
+        maxCalculNumber = maxNumberCalcInput.value
+    }
+
+    allCalculRecap=""
     cptGoodAnswer = 0
     cptBadAnswer = 0
+    messengerDiv.innerHTML=""
     lancerMinuteur(TempsMinuteurBase)
     generateCalcul()
     displayPlaiyngDiv(true)
 }
 
 function generateCalcul() {
-    calculEncours = new Calcul(20)
+    calculEncours = new Calcul(maxCalculNumber)
     calculDiv.innerText = calculEncours.showCalcul
 }
 
@@ -78,7 +91,7 @@ function lancerMinuteur(TempsMinuteurBase) {
             let totalQuestions = cptBadAnswer + cptGoodAnswer
             let pourcentageGoodAnswer = 100 * (cptGoodAnswer/totalQuestions)
 
-            messengerDiv.innerHTML += `Ratio de bonnes réponses : ${pourcentageGoodAnswer}<br/>`
+            messengerDiv.innerHTML += `Ratio de bonnes réponses : ${pourcentageGoodAnswer}%<br/>`
             messengerDiv.innerHTML += allCalculRecap
         }
     }, 1000)
