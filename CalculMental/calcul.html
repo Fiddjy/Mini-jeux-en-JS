@@ -10,15 +10,16 @@
 <body>
     <h1>Le jeu du calcul mental</h1>
 
-    <!-- TODO Afficher ici le minuteur-->
-    <div id="minuteur"></div>
+    <button onclick="launchGame()">GO</button>
+    
+    <div class="showPlayingDiv" id="minuteur"></div>
 
-    <!--TODO Afficher ici le calcul à résoudre-->
-    <div id="calcul"></div>
+    <div class="showPlayingDiv" id="calcul"></div>
 
-    <input type="number" id="resultPropal"/><button id="validPropal">OK</button>
+    <div class="showPlayingDiv" id="propalDiv">
+        <input type="number" id="resultPropal"/><button id="validPropal">OK</button>
+    </div>
 
-    <!--TODO Zone de communication avec le joueur-->
     <div id="messenger"></div>
 
     <script src="calcul.js"></script>

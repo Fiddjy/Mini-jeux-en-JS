@@ -1,9 +1,5 @@
 /* TODO LIST
 
-V Lancer un minuteur de x minute(s) => réutiliser celui du pendu => Set interval
-V Générer un calcul (deux chiffres aléatoires, (+ - *) en aléatoire)
-O Laisser l'utilisateur faire des propositions
-
 V2 
 Paramétrer ma partie
 Modifier le temps du compte à rebours
@@ -15,41 +11,76 @@ Gérer les divisions
 const reboursDiv = document.getElementById("minuteur")
 const calculDiv = document.getElementById("calcul")
 const propalInput = document.getElementById("resultPropal")
+const messengerDiv = document.getElementById("messenger")
+const showPlayingDiv = document.querySelectorAll(".showPlayingDiv")
 
 const TempsMinuteurBase = 30
 let compteurInterval = null
 let TempsRestant = 0
 let calculEncours = null
+let cptGoodAnswer = 0
+let cptBadAnswer = 0
 
 document.getElementById("validPropal").addEventListener("click", () => {
-    if(propalInput.value == calculEncours.result) {
-        alert("Bravo")
-    }
-    else{
-        alert("Pas ça")
+    getInputValue()
+})
+
+propalInput.addEventListener("keyup", event => {
+    if(event.key == 'Enter') {
+        checkInputValue()
     }
 })
 
+function checkInputValue() {
+    if(propalInput.value == calculEncours.result) {
+        messengerDiv.innerText="Bravo, vous avez trouvé"
+        cptGoodAnswer++
+    }
+    else{
+        messengerDiv.innerText=`Raté, le résultat attendu était : ${calculEncours.showCalcul} = ${calculEncours.result}`
+        cptBadAnswer++
+    }
+    propalInput.value = ""
+    generateCalcul()
+}
+
 function launchGame() {
+    cptGoodAnswer = 0
+    cptBadAnswer = 0
     lancerMinuteur(TempsMinuteurBase)
+    generateCalcul()
+    displayPlaiyngDiv(true)
 }
 
 function generateCalcul() {
-    calculEncours = new Calcul(500)
+    calculEncours = new Calcul(20)
     calculDiv.innerText = calculEncours.showCalcul
 }
 
 function lancerMinuteur(TempsMinuteurBase) {
+    clearInterval(compteurInterval)
     TempsRestant = TempsMinuteurBase
+    reboursDiv.innerText = TempsRestant
     compteurInterval = setInterval(() => {
-        reboursDiv.innerText = TempsRestant
         TempsRestant--
-        
-        if(TempsRestant == 0) {
+        reboursDiv.innerText = TempsRestant
+        if(TempsRestant === 0) {
             clearInterval(compteurInterval)
-                alert("fini")
+            displayPlaiyngDiv(false)
+            messengerDiv.innerHTML = `Bonne(s) réponse(s) : ${cptGoodAnswer}<br/>`
+            messengerDiv.innerHTML += `Mauvaise(s) réponse(s) : ${cptBadAnswer}`
         }
     }, 1000)
+}
+
+function displayPlaiyngDiv(show){
+    let displayProperty = "none"
+    if(show) {
+        displayProperty = "block"
+    }
+    showPlayingDiv.forEach(element => {
+        element.style.display = displayProperty ;
+    })
 }
 
 class Calcul {
@@ -74,4 +105,4 @@ class Calcul {
     #getRandomInt(max) {
         return Math.floor(Math.random() * max);
       }
-}
+    }
