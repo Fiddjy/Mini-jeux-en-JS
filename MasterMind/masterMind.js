@@ -24,7 +24,7 @@ function launchGame() {
 
 function checkProposition() {
     let allSelect = allSelectDiv.querySelectorAll("select")
-    let propal = Array.from(allSelect, select => select.value).slice(-4)
+    let propal = Array.from(allSelect, select => select.value).slice(0-nbColorToFind)
     console.log(propal)
 
     let cptGoodPlace = 0
@@ -45,7 +45,19 @@ function checkProposition() {
           Confetti.stopAnimationConfeti();
         },5000)
     }
-
+    else{
+        // est-ce que la couleur existe ailleurs ?
+        //si oui cptBadPlace
+        let finded = false
+        colorTabToFind.forEach(color => {
+            if(propal[i] == color) {
+                finded = true
+            }
+        })
+        if(finded) {
+            cptBadPlace++
+        }
+    }
     generateLineSelect()
 }
 
