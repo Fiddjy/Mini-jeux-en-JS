@@ -1,5 +1,5 @@
 //déclarer un tableau de toutes les cartes
-import { Utils } from "../lib/Utils/utils.js";
+let jeuTableau;
 
 let cptClickCurrent = 0;
 let CardClickedId;
@@ -135,7 +135,7 @@ function initGame(nbPaires) {
   for (let i = 0; i < gameCard.length; i++) {
     let cardIsPositionned = false;
     while (!cardIsPositionned) {
-      let randomNumber = Utils.getRandomInt(0, gameCard.length);
+      let randomNumber = getRandomArbitrary(0, gameCard.length);
       if (gameCard[randomNumber][1] == false) {
         cardIsPositionned = true;
         gameCard[randomNumber][1] = true;
@@ -159,6 +159,10 @@ function initGame(nbPaires) {
   });
 }
 
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 function getHtmlCodeCard(nomCard, id) {
   return `<div class="card hidden" id="${id}" data-image="${nomCard}">
                 <img src="img/${nomCard}.png" />
@@ -172,7 +176,7 @@ function setAnimationWin() {
   for (let i = 0; i < 100; i++) {
     let confeti = document.createElement("div");
     confeti.classList.add("confetti");
-    confeti.style.left = Utils.getRandomInt(0, 100) + '%';
+    confeti.style.left = getRandomArbitrary(0, 100) + '%';
     confeti.style.animationDelay = 50 * i + "ms";
     confeti.style.backgroundColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     animateDiv.appendChild(confeti);
