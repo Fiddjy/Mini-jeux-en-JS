@@ -10,17 +10,17 @@
 <body>
     <h1>Le jeu du calcul mental</h1>
 
-    <button onclick="launchGame()">GO</button>
-
     <div>
-        <labem for="nbSecondsGame">Compte à rebours en seconde</labem>
+        <label for="nbSecondsGame">Compte à rebours en seconde</label><br/>
         <input id="nbSecondsGame" type="number"/>
     </div>
 
     <div>
-        <labem for="maxNumberCalc">Nombre max du calcul</labem>
+        <label for="maxNumberCalc">Nombre max du calcul</label><br/>
         <input id="maxNumberCalc" type="number"/>
     </div>
+
+    <button onclick="launchGame()">GO</button>
 
     <div class="showPlayingDiv" id="minuteur"></div>
 
