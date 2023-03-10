@@ -1,10 +1,12 @@
 /* TODO LIST
 - Générer la combinaison secrète de 4 couleurs => DONE
-- Pouvoir proposer une combinaison
+- Pouvoir proposer une combinaison => DONE
 - Gérer début et fin de partie (importer les confettis)
 */
 import { Utils } from "../lib/Utils/utils.js";
+import { Confetti } from "../lib/confetti.js";
 
+const allSelectDiv = document.getElementById("allSelect")
 const colors = ["red", "blue", "yellow", "pink"]
 let colorTabToFind = null
 const nbColorToFind = 4
@@ -14,14 +16,54 @@ document.getElementById("startButton").addEventListener("click", () => {
 })
 
 function launchGame() {
+    allSelectDiv.innerHTML = ""
     setAleaColorTab()
-    document.getElementById("allSelect").innerHTML = ""
-    for(let index = 0; index < nbColorToFind; index++) {
-        generateSelect("allSelect")
-    }
+    generateLineSelect()
+    console.log(colorTabToFind)
 }
 
-function generateSelect(idCible){
+function checkProposition() {
+    let allSelect = allSelectDiv.querySelectorAll("select")
+    let propal = Array.from(allSelect, select => select.value).slice(-4)
+    console.log(propal)
+
+    let cptGoodPlace = 0
+    let cptBadPlace = 0
+
+    for(let i = 0; i<propal.length; i++) {
+        if(propal[i] == colorTabToFind[i]) {
+            cptGoodPlace++
+        }
+    }
+    let lineResponse = document.createElement("div")
+    lineResponse.innerText="Couleurs bien placées : "+cptGoodPlace
+    allSelectDiv.appendChild(lineResponse)
+
+    if(cptGoodPlace == colorTabToFind.length) {
+        Confetti.launchAnimationConfeti();
+        setTimeout(() => {
+          Confetti.stopAnimationConfeti();
+        },5000)
+    }
+
+    generateLineSelect()
+}
+
+function generateLineSelect() {
+    let line = document.createElement("div")
+    for(let index = 0; index < nbColorToFind; index++) {
+        generateSelect(line)
+    }
+    let btn = document.createElement("button")
+    btn.innerText="ok"
+    line.appendChild(btn)
+    btn.addEventListener("click", () => {
+        checkProposition()
+    })
+    allSelectDiv.appendChild(line)
+}
+
+function generateSelect(target){
     let mySelect = document.createElement("select")
     colors.forEach(color => {
         let colorOption=document.createElement("option")
@@ -30,7 +72,7 @@ function generateSelect(idCible){
         mySelect.appendChild(colorOption)
         colorOption.style.backgroundColor = color
     })
-    document.getElementById(idCible).appendChild(mySelect)
+    target.appendChild(mySelect)
 }
 
 function setAleaColorTab(size = 4) {
