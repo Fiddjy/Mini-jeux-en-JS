@@ -29,14 +29,33 @@ function checkProposition() {
 
     let cptGoodPlace = 0
     let cptBadPlace = 0
+    let colorToFindCopy = [...colorTabToFind]
 
     for(let i = 0; i<propal.length; i++) {
-        if(propal[i] == colorTabToFind[i]) {
+        if(propal[i] == colorToFindCopy[i]) {
             cptGoodPlace++
+            colorToFindCopy[i] = "Trouvé"
+            propal[i] = "trouvéCotePropal"
         }
     }
+    for(let i = 0; i<propal.length; i++) {
+        if(propal[i] != "trouvéCotePropal"[i]){
+            let finded = false
+            colorToFindCopy.forEach((color,index)=>{
+                if(!finded) {
+                    if(propal[i]==color) {
+                        cptBadPlace++
+                        propal[i] = "trouvéCotePropal"
+                        colorToFindCopy[index] = "trouvé"
+                        finded = true
+                    }
+                }
+            })
+        }
+    }
+
     let lineResponse = document.createElement("div")
-    lineResponse.innerText="Couleurs bien placées : "+cptGoodPlace
+    lineResponse.innerText= "bien placés : " + cptGoodPlace + "| Mal placés : " + cptBadPlace
     allSelectDiv.appendChild(lineResponse)
 
     if(cptGoodPlace == colorTabToFind.length) {
@@ -46,8 +65,6 @@ function checkProposition() {
         },5000)
     }
     else{
-        // est-ce que la couleur existe ailleurs ?
-        //si oui cptBadPlace
         let finded = false
         colorTabToFind.forEach(color => {
             if(propal[i] == color) {
